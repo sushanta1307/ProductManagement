@@ -11,9 +11,10 @@ package labs.pm.data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.Objects;
 
-public abstract class Product {
+public abstract class Product implements Rateable<Product>{
   private int id;
   private String name;
   private BigDecimal price;
@@ -61,8 +62,7 @@ public abstract class Product {
     return price.multiply(DISCOUNT_RATE).setScale(2, RoundingMode.HALF_UP);
   }
 
-  public abstract Product applyRating(Rating newRating);
-
+  @Override
   public Rating getRating() {
     return rating;
   }
@@ -71,13 +71,18 @@ public abstract class Product {
     this.rating = rating;
   }
 
+  public LocalDate getBestBefore() {
+    return LocalDate.now();
+  }
+
   @Override
   public String toString() {
     return "Product: " +
         "id=" + id +
         ", name='" + name + '\'' +
         ", price=" + price +
-        ", rating=" + rating.getStars();
+        ", rating=" + rating.getStars()
+        + " ";
   }
 
   @Override
